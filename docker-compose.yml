@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres
+    container_name: database_pedals
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=pedals
+    volumes:
+      - pgdata:/data/postgres
+
+  app:
+    build: .
+    container_name: pedals
+    restart: always
+    ports:
+      - 8082:8082
+    volumes:
+      - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+
+volumes:
+  pgdata:
+    driver: local
