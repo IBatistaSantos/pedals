@@ -3,8 +3,19 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AuthenticatePayload {
+  token: String!
+  user: User!
+}
+
+input AuthenticateUserInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createUser(data: UserInput!): User!
+  login(data: AuthenticateUserInput!): AuthenticatePayload!
 }
 
 type Query {

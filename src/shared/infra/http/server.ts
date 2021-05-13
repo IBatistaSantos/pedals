@@ -2,8 +2,9 @@ import {ApolloServer} from "apollo-server-express"
 import express from "express";
 import "reflect-metadata"
 import "dotenv/config"
+import "../../../modules/account/provider"
 import { buildSchema } from "type-graphql"
-import { UserResolver } from "./modules/account/resolvers/UserResolver";
+import { UserResolver } from "../../../modules/account/resolvers/UserResolver";
 
 const app = async () => {
   const schema = await buildSchema ({
