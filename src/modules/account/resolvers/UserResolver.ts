@@ -10,6 +10,7 @@ import { AuthenticateResponseDTO } from "../dtos/AuthenticateResponse";
 
 
 class UserResolver {
+  
   @Mutation(() => User)
   async createUser(@Arg("data"){name, password, email}: UserInput): Promise<User> { 
     const createUser = container.resolve(CreateUserUseCase);

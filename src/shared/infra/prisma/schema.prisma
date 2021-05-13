@@ -12,8 +12,23 @@ generator client {
 }
 
 model User {
-  id       String @id
-  email    String @unique
+  id       String   @id
+  email    String   @unique
   name     String
   password String
+  Pedals   Pedals[]
+}
+
+model Pedals {
+  id                      String   @id
+  name                    String
+  start_date              DateTime
+  start_date_registration DateTime
+  end_date_registration   DateTime
+  additional_information  String?
+  start_place             DateTime
+  participants_limit      Int?
+  user                    User     @relation(fields: [userId], references: [id])
+  userId                  String
+  createdAt               DateTime @default(now())
 }
