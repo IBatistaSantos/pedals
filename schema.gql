@@ -21,7 +21,7 @@ scalar DateTime
 type Mutation {
   createPedals(additional_information: String, end_date_registration: DateTime!, name: String!, participants_limit: Float, start_date: DateTime!, start_date_registration: DateTime!, start_place: DateTime!, userId: String!): Pedals!
   createUser(data: UserInput!): User!
-  login(data: AuthenticateUserInput!): AuthenticatePayload!
+  signIn(data: AuthenticateUserInput!): AuthenticatePayload!
 }
 
 type Pedals {
@@ -38,7 +38,6 @@ type Pedals {
 type Query {
   allPedals: [Pedals!]!
   findPedalsByUserId: [Pedals!]!
-  returnAllUsers: [User!]!
 }
 
 """The User model"""

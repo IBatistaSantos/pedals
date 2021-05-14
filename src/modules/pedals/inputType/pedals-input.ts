@@ -1,9 +1,7 @@
-import { Field, InputType } from "type-graphql";
-import { Pedals } from "../../entities/Pedals";
+import { Field, InputType } from 'type-graphql';
 
 @InputType()
-export class PedalsInput implements Partial<Pedals>  {
-
+export class PedalsInput {
   @Field()
   name: string;
 
@@ -19,13 +17,12 @@ export class PedalsInput implements Partial<Pedals>  {
   @Field()
   start_place: Date;
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   additional_information: string;
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   participants_limit: number;
 
   @Field()
   userId: string;
-
 }
