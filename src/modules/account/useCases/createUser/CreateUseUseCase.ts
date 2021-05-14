@@ -1,4 +1,4 @@
-import { User } from '../../entities/User';
+import { User } from '../../../../shared/schema/entities/User';
 import { PrismaClient } from '@prisma/client';
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../provider/HashProvider/models/HashProvider';

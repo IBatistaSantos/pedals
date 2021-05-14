@@ -1,18 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { Pedals } from '../../entities/Pedals';
+import { Pedals } from '../../../../shared/schema/entities/Pedals';
 import { inject, injectable } from 'tsyringe';
 import { IGeneratorIDProvider } from 'src/shared/container/providers/GeneratorIDProvider/models/GeneratorIDProvider';
 
-interface IRequest {
-  name: string;
-  start_date: Date;
-  start_date_registration: Date;
-  start_place: Date;
-  end_date_registration: Date;
-  additional_information: string;
-  participants_limit: number;
-  userId: string;
-}
+type IRequest = Omit<Pedals, 'id' | 'createdAt'>;
 
 @injectable()
 class CreatePedalsUseCase {
@@ -26,9 +17,14 @@ class CreatePedalsUseCase {
     start_date_registration,
     start_place,
     end_date_registration,
+    additional_information,
+    participants_limit,
     userId,
   }: IRequest): Promise<Pedals> {
     const prisma = new PrismaClient();
+    const additionalInformation = await this.isValueAdd(additional_information);
+    const participantsLimit = await this.isValueP(participants_limit);
+
     const pedals = await prisma.pedals.create({
       data: {
         id: this.generatorIDProvider.genetatorID(),
@@ -37,11 +33,29 @@ class CreatePedalsUseCase {
         start_date_registration,
         end_date_registration,
         start_place,
+        additional_information: additionalInformation,
+        participants_limit: participantsLimit,
         userId,
       },
     });
 
     return pedals;
+  }
+
+  async isValueAdd(field: any): Promise<string | null> {
+    if (field) {
+      return field;
+    } else {
+      return null;
+    }
+  }
+
+  async isValueP(field: any): Promise<number | null> {
+    if (field) {
+      return field;
+    } else {
+      return null;
+    }
   }
 }
 

@@ -5,9 +5,17 @@ import { ensuredAuthenticated } from '../infra/http/middleware/ensureAuthenticat
 import { CreatePedalsController } from '../../modules/pedals/useCases/createPedals/CreatePedalsController';
 import { ListPedalsByUserController } from '../../modules/pedals/useCases/listPedalsByUser/ListPedalsByUserController';
 import { ListPedalsController } from '../../modules/pedals/useCases/listPedals/ListPedalsController';
+import { User } from './entities/User';
+import { Auth } from './entities/Auth';
+import { Node } from './entities/Node';
+import { Pedals } from './entities/Pedals';
 
 const schema = buildSchemaSync({
   resolvers: [
+    User,
+    Auth,
+    Node,
+    Pedals,
     CreateUserController,
     AuthenticateUserController,
     CreatePedalsController,

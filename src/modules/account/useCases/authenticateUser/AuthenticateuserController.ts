@@ -1,15 +1,15 @@
 import { Arg, Mutation, Resolver } from 'type-graphql';
 import { container } from 'tsyringe';
-import { AuthenticatePayload } from '../../entities/AuthenticatePayload';
-import { AuthenticateUserInput } from '../../inputType/authenticate-user-input';
 import { AuthenticateUser } from './AuthenticateUserUseCase';
+import { Auth } from '../../../../shared/schema/entities/Auth';
 
-@Resolver(AuthenticatePayload)
+@Resolver(Auth)
 class AuthenticateUserController {
-  @Mutation(() => AuthenticatePayload)
+  @Mutation(() => Auth)
   async signIn(
-    @Arg('data') { email, password }: AuthenticateUserInput
-  ): Promise<AuthenticatePayload> {
+    @Arg('email') email: string,
+    @Arg('password') password: string
+  ): Promise<Auth> {
     const authenticateUser = container.resolve(AuthenticateUser);
     const user = await authenticateUser.execute({ email, password });
     return user;

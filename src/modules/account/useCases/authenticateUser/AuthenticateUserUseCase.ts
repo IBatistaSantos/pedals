@@ -3,8 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../provider/HashProvider/models/HashProvider';
 import auth from '../../../../config/auth';
-import { AuthenticateResponseDTO } from '../../dtos/AuthenticateResponse';
-
+import { Auth } from '../../../../shared/schema/entities/Auth';
 interface IRequest {
   email: string;
   password: string;
@@ -16,10 +15,7 @@ class AuthenticateUser {
     @inject('HashProvider')
     private hashProvider: HashProvider
   ) {}
-  async execute({
-    email,
-    password,
-  }: IRequest): Promise<AuthenticateResponseDTO> {
+  async execute({ email, password }: IRequest): Promise<Auth> {
     const prima = new PrismaClient();
     const user = await prima.user.findUnique({
       where: { email },
@@ -43,7 +39,7 @@ class AuthenticateUser {
       expiresIn: auth.expires_in_token,
     });
 
-    const tokenResponse: AuthenticateResponseDTO = {
+    const tokenResponse: Auth = {
       token,
       user,
     };

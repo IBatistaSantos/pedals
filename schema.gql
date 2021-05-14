@@ -3,14 +3,9 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type AuthenticatePayload {
+type Auth {
   token: String!
   user: User!
-}
-
-input AuthenticateUserInput {
-  email: String!
-  password: String!
 }
 
 """
@@ -19,9 +14,13 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
-  createPedals(additional_information: String, end_date_registration: DateTime!, name: String!, participants_limit: Float, start_date: DateTime!, start_date_registration: DateTime!, start_place: DateTime!, userId: String!): Pedals!
-  createUser(data: UserInput!): User!
-  signIn(data: AuthenticateUserInput!): AuthenticatePayload!
+  createPedals(additional_information: String, end_date_registration: DateTime!, name: String!, participants_limit: Float, start_date: DateTime!, start_date_registration: DateTime!, start_place: DateTime!): Pedals!
+  signIn(email: String!, password: String!): Auth!
+  signUp(email: String!, name: String!, password: String!): User!
+}
+
+interface Node {
+  id: ID!
 }
 
 type Pedals {
@@ -40,16 +39,9 @@ type Query {
   findPedalsByUserId: [Pedals!]!
 }
 
-"""The User model"""
-type User {
-  email: String!
+type User implements Node {
+  email: String
   id: ID!
-  name: String!
-  password: String!
-}
-
-input UserInput {
-  email: String!
-  name: String!
-  password: String!
+  name: String
+  password: String
 }

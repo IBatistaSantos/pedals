@@ -1,8 +1,9 @@
-import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import { container } from 'tsyringe';
-import { Pedals } from '../../entities/Pedals';
+import { Pedals } from '../../../../shared/schema/entities/Pedals';
 
 import { CreatePedalsUseCase } from './CreatePedalsUseCase';
+import { IContext } from 'src/shared/infra/http/middleware/ensureAuthenticated';
 
 @Resolver(Pedals)
 class CreatePedalsController {
@@ -17,18 +18,18 @@ class CreatePedalsController {
     @Arg('additional_information', { nullable: true })
     additional_information: string,
     @Arg('participants_limit', { nullable: true }) participants_limit: number,
-    @Arg('userId') userId: string
+    @Ctx() context: IContext
   ): Promise<Pedals> {
     const createPedals = container.resolve(CreatePedalsUseCase);
     const pedals = await createPedals.execute({
       name,
       start_date,
       start_date_registration,
-      start_place,
       end_date_registration,
       additional_information,
       participants_limit,
-      userId,
+      start_place,
+      userId: context.userId as string,
     });
 
     return pedals;
