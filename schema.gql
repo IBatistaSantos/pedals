@@ -37,7 +37,7 @@ type Pedals {
 
 type Query {
   allPedals: [Pedals!]!
-  findPedalsByUserId(userId: String!): [Pedals!]!
+  findPedalsByUserId: [Pedals!]!
   returnAllUsers: [User!]!
 }
 
