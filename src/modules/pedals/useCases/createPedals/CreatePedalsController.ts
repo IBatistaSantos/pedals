@@ -4,6 +4,7 @@ import { Pedals } from '../../../../shared/schema/entities/Pedals';
 
 import { CreatePedalsUseCase } from './CreatePedalsUseCase';
 import { IContext } from 'src/shared/infra/http/middleware/ensureAuthenticated';
+import { IResponsePedalsDTO } from '../../dtos/IResponsePedals';
 
 @Resolver(Pedals)
 class CreatePedalsController {
@@ -19,7 +20,7 @@ class CreatePedalsController {
     additional_information: string,
     @Arg('participants_limit', { nullable: true }) participants_limit: number,
     @Ctx() context: IContext
-  ): Promise<Pedals> {
+  ): Promise<IResponsePedalsDTO> {
     const createPedals = container.resolve(CreatePedalsUseCase);
     const pedals = await createPedals.execute({
       name,

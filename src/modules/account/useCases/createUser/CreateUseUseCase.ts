@@ -1,8 +1,8 @@
 import { User } from '../../../../shared/schema/entities/User';
-import { PrismaClient } from '@prisma/client';
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../provider/HashProvider/models/HashProvider';
 import { IGeneratorIDProvider } from '../../../../shared/container/providers/GeneratorIDProvider/models/GeneratorIDProvider';
+import { IUserRepository } from '../../repositories/IUserRepository';
 
 interface IRequest {
   name: String;
@@ -16,18 +16,19 @@ class CreateUserUseCase {
     @inject('HashProvider')
     private hashProvider: HashProvider,
     @inject('GeneratorID')
-    private generatorIDProvider: IGeneratorIDProvider
+    private generatorIDProvider: IGeneratorIDProvider,
+
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
   ) {}
   async execute({ name, email, password }: IRequest): Promise<User> {
-    const prisma = new PrismaClient();
     const passwordHash = await this.hashProvider.generateHash(String(password));
-    const user = await prisma.user.create({
-      data: {
-        id: this.generatorIDProvider.genetatorID(),
-        name: String(name),
-        email: String(email),
-        password: passwordHash,
-      },
+    const id = this.generatorIDProvider.genetatorID()
+    const user = await this.userRepository.create({
+      id,
+      name: String(name),
+      email: String(email),
+      password: passwordHash
     });
 
     return user;

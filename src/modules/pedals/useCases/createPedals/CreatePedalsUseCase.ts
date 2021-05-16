@@ -1,15 +1,17 @@
-import { PrismaClient } from '@prisma/client';
-import { Pedals } from '../../../../shared/schema/entities/Pedals';
 import { inject, injectable } from 'tsyringe';
-import { IGeneratorIDProvider } from 'src/shared/container/providers/GeneratorIDProvider/models/GeneratorIDProvider';
+import { IGeneratorIDProvider } from '../../../../shared/container/providers/GeneratorIDProvider/models/GeneratorIDProvider';
+import { IResponsePedalsDTO } from '../../dtos/IResponsePedals';
+import { IPedalsRepository } from '../../repositories/IPedalsRepository';
+import { ICreatePedalsDTO, IRequest } from '../../dtos/ICreatePedals';
 
-type IRequest = Omit<Pedals, 'id' | 'createdAt'>;
 
 @injectable()
 class CreatePedalsUseCase {
   constructor(
     @inject('GeneratorID')
-    private generatorIDProvider: IGeneratorIDProvider
+    private generatorIDProvider: IGeneratorIDProvider,
+    @inject('PedalsRepository')
+    private pedalsRepository: IPedalsRepository
   ) {}
   async execute({
     name,
@@ -20,42 +22,20 @@ class CreatePedalsUseCase {
     additional_information,
     participants_limit,
     userId,
-  }: IRequest): Promise<Pedals> {
-    const prisma = new PrismaClient();
-    const additionalInformation = await this.isValueAdd(additional_information);
-    const participantsLimit = await this.isValueP(participants_limit);
-
-    const pedals = await prisma.pedals.create({
-      data: {
-        id: this.generatorIDProvider.genetatorID(),
-        name: String(name),
-        start_date,
-        start_date_registration,
-        end_date_registration,
-        start_place,
-        additional_information: additionalInformation,
-        participants_limit: participantsLimit,
-        userId,
-      },
-    });
-
+  }: IRequest): Promise<IResponsePedalsDTO> {
+    const id =  this.generatorIDProvider.genetatorID();
+    const pedals = await this.pedalsRepository.create({
+    id,
+    name: String(name),
+    start_date,
+    start_date_registration,
+    start_place,
+    end_date_registration,
+    additional_information,
+    participants_limit,
+    userId,
+    })
     return pedals;
-  }
-
-  async isValueAdd(field: any): Promise<string | null> {
-    if (field) {
-      return field;
-    } else {
-      return null;
-    }
-  }
-
-  async isValueP(field: any): Promise<number | null> {
-    if (field) {
-      return field;
-    } else {
-      return null;
-    }
   }
 }
 

@@ -24,10 +24,12 @@ interface Node {
 }
 
 type Pedals {
+  additional_information: String
   createdAt: DateTime!
   end_date_registration: DateTime!
   id: ID!
   name: String!
+  participants_limit: Float
   start_date: DateTime!
   start_date_registration: DateTime!
   start_place: DateTime!
@@ -35,8 +37,8 @@ type Pedals {
 }
 
 type Query {
-  allPedals: [Pedals!]!
-  findPedalsByUserId: [Pedals!]!
+  myPedals: [Pedals!]!
+  pedals: [Pedals!]!
 }
 
 type User implements Node {

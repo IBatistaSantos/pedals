@@ -1,11 +1,17 @@
 import { PrismaClient } from '@prisma/client';
-import { Pedals } from '../../../../shared/schema/entities/Pedals';
+import { inject, injectable } from 'tsyringe';
+import { IResponsePedalsDTO } from '../../dtos/IResponsePedals';
+import { IPedalsRepository } from '../../repositories/IPedalsRepository';
 
+@injectable()
 class ListPedalsUseCase {
-  async execute(): Promise<Pedals[]> {
-    const prisma = new PrismaClient();
-    const pedals = await prisma.pedals.findMany();
-    return pedals;
+  constructor(
+    @inject("PedalsRepository")
+    private pedalsRepository: IPedalsRepository
+  ) {}
+  async execute(userId: string): Promise<IResponsePedalsDTO[]> {
+    const pedals = await this.pedalsRepository.findAll(userId)
+    return pedals
   }
 }
 
