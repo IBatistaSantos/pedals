@@ -1,6 +1,6 @@
 import { Pedals } from "src/shared/schema/entities/Pedals";
 
-type IRequest = Omit<Pedals, "id" |  'createdAt'>;
+type IRequest = Omit<Pedals, "id" |  'createdAt' | "user">;
 
 
 interface ICreatePedalsDTO {

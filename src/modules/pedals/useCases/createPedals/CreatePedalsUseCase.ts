@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { IGeneratorIDProvider } from '../../../../shared/container/providers/GeneratorIDProvider/models/GeneratorIDProvider';
 import { IResponsePedalsDTO } from '../../dtos/IResponsePedals';
 import { IPedalsRepository } from '../../repositories/IPedalsRepository';
-import { ICreatePedalsDTO, IRequest } from '../../dtos/ICreatePedals';
+import {  IRequest } from '../../dtos/ICreatePedals';
 
 
 @injectable()
@@ -35,6 +35,7 @@ class CreatePedalsUseCase {
     participants_limit,
     userId,
     })
+    
     return pedals;
   }
 }

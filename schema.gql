@@ -33,6 +33,7 @@ type Pedals {
   start_date: DateTime!
   start_date_registration: DateTime!
   start_place: DateTime!
+  user: User!
   userId: String!
 }
 

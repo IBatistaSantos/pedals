@@ -31,6 +31,7 @@ class CreatePedalsController {
       participants_limit,
       start_place,
       userId: context.userId as string,
+  
     });
 
     return pedals;

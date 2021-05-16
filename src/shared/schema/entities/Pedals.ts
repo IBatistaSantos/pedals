@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
+import {User} from "./User";
 
 @ObjectType()
 class Pedals {
@@ -31,6 +32,9 @@ class Pedals {
 
   @Field()
   createdAt: Date;
+
+  @Field()
+  user: User
 }
 
 export { Pedals };

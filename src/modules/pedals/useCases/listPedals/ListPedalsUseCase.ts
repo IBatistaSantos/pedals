@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { inject, injectable } from 'tsyringe';
 import { IResponsePedalsDTO } from '../../dtos/IResponsePedals';
 import { IPedalsRepository } from '../../repositories/IPedalsRepository';
