@@ -8,14 +8,13 @@ interface IResponsePedalsDTO {
    additional_information: string | null,
    participants_limit: number | null,
    userId: string ,
-  user?: {
+   createdAt: Date
+   user?: {
     id: string
     name: string,
     email: string,
     password: string,
   }
-   createdAt: Date
-  
 }
 
 export {IResponsePedalsDTO}

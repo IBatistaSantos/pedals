@@ -15,6 +15,7 @@ interface IPedalsRepository {
     userId }: ICreatePedalsDTO): Promise<IResponsePedalsDTO>;
   
   findByUserId(userId: string): Promise<IResponsePedalsDTO[]>
+  findById(id: string): Promise<IResponsePedalsDTO | null>
 
 
 }

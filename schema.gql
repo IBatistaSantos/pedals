@@ -17,6 +17,7 @@ type Mutation {
   createPedals(additional_information: String, end_date_registration: DateTime!, name: String!, participants_limit: Float, start_date: DateTime!, start_date_registration: DateTime!, start_place: DateTime!): Pedals!
   signIn(email: String!, password: String!): Auth!
   signUp(email: String!, name: String!, password: String!): User!
+  subscribePedals(ride_id: String!): Subscribe!
 }
 
 interface Node {
@@ -38,8 +39,16 @@ type Pedals {
 }
 
 type Query {
+  allPedalsParticipated: [Subscribe!]!
   myPedals: [Pedals!]!
   pedals: [Pedals!]!
+}
+
+type Subscribe {
+  pedals: Pedals!
+  ride_id: String!
+  user: User!
+  user_id: String!
 }
 
 type User implements Node {
