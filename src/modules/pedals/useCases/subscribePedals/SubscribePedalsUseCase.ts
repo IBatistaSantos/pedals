@@ -4,6 +4,7 @@ import { IReponseSubscribePedalsDTO } from '../../dtos/IResponseSubscribe';
 import { ISubscribePedalsRepository } from '../../repositories/ISubscribePedalsRepository';
 import { IPedalsRepository } from '../../repositories/IPedalsRepository';
 import { IDateProvider } from './../../../../shared/container/providers/DateProvider/models/IDateProvider';
+import { ICacheProvider } from '../../../../shared/container/providers/CacheProvider/model/ICacheProvider';
 
 interface IRequest {
   user_id: string;
@@ -15,6 +16,9 @@ class SubscribePedalsUseCase {
   constructor(
     @inject('GeneratorID')
     private generatorIDProvider: IGeneratorIDProvider,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
 
     @inject('SubscribeRepository')
     private subscriveRepository: ISubscribePedalsRepository,
@@ -30,7 +34,7 @@ class SubscribePedalsUseCase {
     ride_id,
   }: IRequest): Promise<IReponseSubscribePedalsDTO> {
     const id = this.generatorIDProvider.genetatorID();
-
+    const cacheKey = `my-pedals-participated: ${user_id}`;
     const pedals = await this.pedalsRepository.findById(ride_id);
 
     if (!pedals) {
@@ -68,6 +72,8 @@ class SubscribePedalsUseCase {
       user_id,
       ride_id
     );
+
+    await this.cacheProvider.invalidate(cacheKey);
     return subscribe;
   }
 }

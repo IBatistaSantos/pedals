@@ -27,6 +27,7 @@ class SubscribePedalsRepository implements ISubscribePedalsRepository {
     });
 
     const response: IReponseSubscribePedalsDTO = {
+      id: subscribe.id,
       user_id: subscribe.user_id,
       ride_id: subscribe.ride_id,
       subscription_date: subscribe.subscription_date,
@@ -42,7 +43,7 @@ class SubscribePedalsRepository implements ISubscribePedalsRepository {
         start_date: subscribe.pedals.start_date,
         start_date_registration: subscribe.pedals.start_date_registration,
         end_date_registration: subscribe.pedals.end_date_registration,
-        userId: subscribe.user_id,
+        userId: subscribe.pedals.userId,
         start_place: subscribe.pedals.start_date,
         additional_information: subscribe.pedals.additional_information,
         participants_limit: subscribe.pedals.participants_limit,
@@ -91,6 +92,7 @@ class SubscribePedalsRepository implements ISubscribePedalsRepository {
     }
 
     const response: IReponseSubscribePedalsDTO | null = {
+      id: pedals.id,
       ride_id: pedals.id,
       user_id: pedals.user_id,
       subscription_date: pedals.subscription_date,

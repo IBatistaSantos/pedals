@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   database:
@@ -13,7 +13,11 @@ services:
       - POSTGRES_DB=pedals
     volumes:
       - pgdata:/data/postgres
-
+  redis:
+    image: redis:alpine
+    container_name: redis_pedals
+    ports:
+      - 6379:6379
   app:
     build: .
     container_name: pedals
@@ -26,6 +30,7 @@ services:
       - database
     depends_on:
       - database
+      - redis
 
 volumes:
   pgdata:
