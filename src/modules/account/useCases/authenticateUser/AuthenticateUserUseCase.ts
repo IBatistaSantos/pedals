@@ -1,5 +1,4 @@
 import { sign } from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
 import { inject, injectable } from 'tsyringe';
 import { HashProvider } from '../../provider/HashProvider/models/HashProvider';
 import auth from '../../../../config/auth';
@@ -19,7 +18,6 @@ class AuthenticateUser {
     private userRepository: IUserRepository
   ) {}
   async execute({ email, password }: IRequest): Promise<Auth> {
-
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {

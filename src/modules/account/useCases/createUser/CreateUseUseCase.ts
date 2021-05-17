@@ -5,9 +5,9 @@ import { IGeneratorIDProvider } from '../../../../shared/container/providers/Gen
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 interface IRequest {
-  name: String;
-  email: String;
-  password: String;
+  name: string;
+  email: string;
+  password: string;
 }
 
 @injectable()
@@ -19,16 +19,23 @@ class CreateUserUseCase {
     private generatorIDProvider: IGeneratorIDProvider,
 
     @inject('UserRepository')
-    private userRepository: IUserRepository,
+    private userRepository: IUserRepository
   ) {}
   async execute({ name, email, password }: IRequest): Promise<User> {
-    const passwordHash = await this.hashProvider.generateHash(String(password));
-    const id = this.generatorIDProvider.genetatorID()
+    const passwordHash = await this.hashProvider.generateHash(password);
+    const id = this.generatorIDProvider.genetatorID();
+
+    const userExists = await this.userRepository.findByEmail(email);
+
+    if (userExists) {
+      throw new Error('E-mail already registered');
+    }
+
     const user = await this.userRepository.create({
       id,
       name: String(name),
       email: String(email),
-      password: passwordHash
+      password: passwordHash,
     });
 
     return user;
